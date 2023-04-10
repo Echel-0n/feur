@@ -13,16 +13,16 @@ public class AppUserController {
     @Autowired
     private AppUserService userService;
 
-    @PostMapping("/users")
+    @PostMapping("/api/users")
     public AppUser saveUser(@RequestBody AppUser user) {
         return userService.saveUser(user);
     }
 
-    @GetMapping("/users")
+    @GetMapping("/api/users")
     public List<AppUser> fetchUserList(){
         return userService.fetchUserList();
     }
-    @GetMapping("/users/{id}")
+    @GetMapping("/api/users/{id}")
     public Optional<AppUser> fetchUserById(@PathVariable("id") Long id){
         return userService.fetchUserById(id);
     }

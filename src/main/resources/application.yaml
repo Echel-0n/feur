@@ -1,8 +1,10 @@
 server:
   port:8080
 
-spring:
+welcome:
+  message: "Hello World"
 
+spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://proust.dev:3306/ProjetJEE

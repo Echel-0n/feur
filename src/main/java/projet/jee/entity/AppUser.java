@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 @Entity
 public class AppUser {
 
-
     private String username;
     private String password;
     @Id
