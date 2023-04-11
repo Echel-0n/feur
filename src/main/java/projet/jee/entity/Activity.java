@@ -24,9 +24,4 @@ public class Activity {
 
     @OneToMany
     private List<Subscription> subscriptions;
-
-    public Activity addSubscription(Subscription subscription){
-        subscriptions.add(subscription);
-        return this;
-    }
 }
