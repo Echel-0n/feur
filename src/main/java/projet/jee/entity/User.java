@@ -10,14 +10,21 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AppUser {
+@Table(name = "app_user")
+public class User {
 
     private String username;
     private String password;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long userId;
+    private Long user_id;
 
-    @OneToMany(mappedBy = "user")
-    private List<Abonnement> abonne;
+    @OneToMany
+    private List<Subscription> subscriptions;
+
+    public User addSubscription(Subscription subscription){
+        subscriptions.add(subscription);
+        return this;
+    }
 }

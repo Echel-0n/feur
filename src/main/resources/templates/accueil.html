@@ -58,7 +58,7 @@
         <h2>Users</h2>
         <div th:each="u:${users}">
             <blockquote>
-                <p th:text="${u.userId}"></p>
+                <p th:text="${u.user_id}"></p>
                 <p th:text="${u.username}"></p>
                 <p th:text="${u.password}"></p>
             </blockquote>
@@ -66,7 +66,7 @@
         <h2>Activités</h2>
         <div th:each="a:${activities}">
             <blockquote>
-                <p th:text="${a.activityId}"></p>
+                <p th:text="${a.activity_id}"></p>
                 <p th:text="${a.name}"></p>
                 <p th:text="${a.tel}"></p>
                 <p th:text="${a.address}"></p>

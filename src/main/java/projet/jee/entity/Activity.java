@@ -2,7 +2,6 @@ package projet.jee.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.PersistenceConstructor;
 
 import java.util.List;
 
@@ -21,8 +20,13 @@ public class Activity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long activityId;
+    private Long activity_id;
 
-    @OneToMany(mappedBy = "activity")
-    private List<Abonnement> abonne;
+    @OneToMany
+    private List<Subscription> subscriptions;
+
+    public Activity addSubscription(Subscription subscription){
+        subscriptions.add(subscription);
+        return this;
+    }
 }

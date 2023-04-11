@@ -10,23 +10,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import projet.jee.entity.Activity;
-import projet.jee.entity.AppUser;
+import projet.jee.entity.User;
 import projet.jee.service.ActivityService;
-import projet.jee.service.AppUserService;
+import projet.jee.service.UserService;
 
 import java.util.List;
 
 @Controller
 public class HelloController {
     @Autowired
-    private AppUserService userService;
+    private UserService userService;
     @Autowired
     private ActivityService activityService;
 
     //page accueil + recherche programmes
     @RequestMapping(value={"", "/"})
     public String main(Model model){
-        List<AppUser> appUserList = userService.fetchUserList();
+        List<User> appUserList = userService.fetchUserList();
         List<Activity> activityList = activityService.fetchActivityList();
         model.addAttribute("users", appUserList);
         model.addAttribute("activities", activityList);
