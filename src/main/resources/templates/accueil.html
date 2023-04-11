@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - Mon Site</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles.css}">
+    <script src="script.js"></script>
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><a href="/">Accueil</a></li>
+            <li><a href="/inscription">Inscription</a></li>
+            <li><a href="/connexion">Connexion</a></li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <section id="hero">
+        <h1>Bienvenue sur Mon Site</h1>
+        <p>Un accompagnement personnalisé pour vos activités physiques</p>
+        <a href="#" class="cta">Inscrivez-vous maintenant</a>
+    </section>
+    <section id="services">
+        <h2>Nos services</h2>
+        <ul>
+            <li>
+                <h3>Programmes personnalisés</h3>
+                <p>Nos programmes sont adaptés à vos besoins et vos objectifs.</p>
+            </li>
+            <li>
+                <h3>Large choix d'activités</h3>
+                <p>Nous offrons une grande variété d'activités pour tous les niveaux.</p>
+            </li>
+            <li>
+                <h3>Évaluation des activités</h3>
+                <p>Nos utilisateurs peuvent évaluer les activités pour nous aider à les améliorer.</p>
+            </li>
+        </ul>
+    </section>
+    <section id="testimonials">
+<!--        <h2>Témoignages</h2>-->
+<!--        <div class="testimonial">-->
+<!--            <blockquote>-->
+<!--                <p>J'ai pu retrouver une activité physique adaptée à mes capacités grâce à Mon Site. Merci pour votre accompagnement !</p>-->
+<!--            </blockquote>-->
+<!--            <cite>John Doe</cite>-->
+<!--        </div>-->
+<!--        <div class="testimonial">-->
+<!--            <blockquote>-->
+<!--                <p>Mon Site m'a permis de découvrir de nouvelles activités que je n'aurais jamais essayées autrement. Je recommande !</p>-->
+<!--            </blockquote>-->
+<!--            <cite>Jane Smith</cite>-->
+<!--        </div>-->
+        <h2>Users</h2>
+        <div th:each="u:${users}">
+            <blockquote>
+                <p th:text="${u.userId}"></p>
+                <p th:text="${u.username}"></p>
+                <p th:text="${u.password}"></p>
+            </blockquote>
+        </div>
+        <h2>Activités</h2>
+        <div th:each="a:${activities}">
+            <blockquote>
+                <p th:text="${a.activityId}"></p>
+                <p th:text="${a.name}"></p>
+                <p th:text="${a.tel}"></p>
+                <p th:text="${a.address}"></p>
+                <p th:text="${a.ville}"></p>
+                <p th:text="${a.description}"></p>
+            </blockquote>
+        </div>
+    </section>
+</main>
+<footer>
+    <p>Mon Site &copy; 2023</p>
+</footer>
+</body>
+</html>

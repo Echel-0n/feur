@@ -9,20 +9,22 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/api")
 public class AppUserController {
     @Autowired
     private AppUserService userService;
 
-    @PostMapping("/api/users")
+    @PostMapping("/users/users")
     public AppUser saveUser(@RequestBody AppUser user) {
         return userService.saveUser(user);
     }
 
-    @GetMapping("/api/users")
+    @GetMapping("/users/users")
     public List<AppUser> fetchUserList(){
         return userService.fetchUserList();
     }
-    @GetMapping("/api/users/{id}")
+
+    @GetMapping("/users/users/{id}")
     public Optional<AppUser> fetchUserById(@PathVariable("id") Long id){
         return userService.fetchUserById(id);
     }

@@ -1,11 +1,15 @@
 package projet.jee.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class AppUser {
 
     private String username;
@@ -14,32 +18,6 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
 
-
-
-    public AppUser() {}
-
-    public String getUsername(){
-        return username;
-    }
-
-    public void setUsername(String u){
-        this.username = u;
-    }
-
-
-    public String getPassword(){
-        return password;
-    }
-
-    public void setPassword(String u){
-        this.password = u;
-    }
-
-    public Long getUsernameId(){
-        return userId;
-    }
-
-    public void setUsernameId(Long u) {
-        this.userId = u;
-    }
+    @OneToMany(mappedBy = "user")
+    private List<Abonnement> abonne;
 }

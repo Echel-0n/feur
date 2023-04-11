@@ -1,0 +1,239 @@
+/* Réinitialisation des styles par défaut */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Styles de base */
+body {
+  font-family: sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+
+h1, h2, h3 {
+  font-weight: normal;
+  margin-bottom: 1rem;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  color: #333;
+  text-decoration: none;
+}
+
+/* Styles de la barre de navigation */
+header {
+  background-color: #f5f5f5;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-between;
+}
+
+nav li {
+  margin: 0 1rem;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* Styles de la section "hero" */
+#hero {
+  background-image: url('https://example.com/hero-image.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+}
+
+#hero h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+#hero p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+#hero .cta {
+  display: inline-block;
+  background-color: #ff6600;
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 3px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+#hero .cta:hover {
+  background-color: #ff8800;
+}
+
+/* Styles de la section "services" */
+#services {
+  background-color: #f9f9f9;
+  padding: 2rem;
+}
+
+#services h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+#services ul {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+#services li {
+  flex-basis: calc(33.33% - 2rem);
+  background-color: #fff;
+  padding: 2rem;
+  margin: 0 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  text-align: center;
+}
+
+#services h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Styles de la section "testimonials" */
+#testimonials {
+  padding: 2rem;
+}
+
+#testimonials h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.testimonial {
+  background-color: #fff;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  text-align: center;
+}
+
+.testimonial blockquote {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.testimonial cite {
+    font-size: 1.2rem;
+    font-style: italic;
+}
+
+/* Styles du formulaire d'inscription */
+#signup-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+}
+
+#signup-form h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+#signup-form label {
+    display: block;
+    margin-bottom: 1rem;
+}
+
+#signup-form input {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    margin-bottom: 1rem;
+}
+
+#signup-form button {
+    display: block;
+    margin: 0 auto;
+    background-color: #ff6600;
+    color: #fff;
+    padding: 1rem 2rem;
+    border-radius: 3px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+#signup-form button:hover {
+    background-color: #ff8800;
+}
+
+/* Styles pour les messages d'erreur */
+.error {
+    color: #ff0000;
+    margin-bottom: 1rem;
+}
+
+/* Styles pour le footer */
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 2rem;
+    text-align: center;
+}
+
+footer p {
+    margin-bottom: 1rem;
+}
+
+/* Styles pour les icônes de médias sociaux dans le footer */
+.social-icons {
+    display: flex;
+    justify-content: center;
+}
+
+.social-icons li {
+    margin: 0 1rem;
+}
+
+.social-icons a {
+    color: #fff;
+    font-size: 1.5rem;
+    transition: color 0.3s ease-in-out;
+}
+
+.social-icons a:hover {
+    color: #ff6600;
+}
+
+/* Media queries */
+@media screen and (max-width: 768px) {
+    #services ul {
+        flex-wrap: wrap;
+    }
+
+    #services li {
+        flex-basis: 100%;
+        margin-bottom: 2rem;
+    }
+}
