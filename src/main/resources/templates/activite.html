@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Page de connexion</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles.css}">
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><a href="/">Accueil</a></li>
+        </ul>
+    </nav>
+</header>
+<h2>Activité</h2>
+<div th:each="a:${activity}">
+    <blockquote>
+        Id: <p th:text="${a.activity_id}"></p>
+        Nom: <p th:text="${a.name}"></p>
+        Tel: <p th:text="${a.tel}"></p>
+        Adresse: <p th:text="${a.address}"></p>
+        Ville: <p th:text="${a.ville}"></p>
+        Description: <p th:text="${a.description}"></p>
+        <a href="#">Ajouter</a>
+    </blockquote>
+</div>
+</body>
+</html>

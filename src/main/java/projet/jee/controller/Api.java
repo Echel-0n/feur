@@ -1,6 +1,7 @@
 package projet.jee.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import projet.jee.entity.Subscription;
 import projet.jee.entity.Activity;
@@ -32,7 +33,8 @@ public class Api {
     // API User
 
     @PostMapping("/api/users")
-    public User saveUser(@RequestBody User user) {
+    public User saveUser(@ModelAttribute User user, Model model) {
+        model.addAttribute("user",user);
         return userService.saveUser(user);
     }
 
