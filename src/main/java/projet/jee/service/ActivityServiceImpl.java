@@ -25,4 +25,7 @@ public class ActivityServiceImpl implements ActivityService {
     public Optional<Activity> findById(Long id) {
         return activityRepository.findById(id);
     }
+    public List<Activity> findByNameLike(String name){
+        return activityRepository.findByNameLike(name);
+    }
 }

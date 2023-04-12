@@ -27,7 +27,9 @@
         Adresse: <p th:text="${a.address}"></p>
         Ville: <p th:text="${a.ville}"></p>
         Description: <p th:text="${a.description}"></p>
-        <a href="#">Ajouter</a>
+        <form th:action="@{/activities/{id}/subscribe(id = ${a.activityId})}" method="post">
+            <button type="submit">Ajouter activité à votre profil</button>
+        </form>
     </blockquote>
 </div>
 </body>

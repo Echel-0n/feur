@@ -22,4 +22,6 @@ public class Subscription {
 
     @ManyToOne
     private Activity activity;
+
+    private Integer note;
 }
