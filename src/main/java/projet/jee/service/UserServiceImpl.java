@@ -13,17 +13,27 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository userRepository;
     @Override
-    public User saveUser(User user) {
+    public User save(User user) {
         return userRepository.save(user);
     }
 
     @Override
-    public List<User> fetchUserList(){
+    public List<User> save(Iterable<User> users) {
+        return userRepository.saveAll(users);
+    }
+
+    @Override
+    public List<User> findAll(){
         return userRepository.findAll();
     }
 
     @Override
-    public Optional<User> fetchUserById(Long id) {
+    public Optional<User> findById(Long id) {
         return userRepository.findById(id);
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.getByUsername(username);
     }
 }

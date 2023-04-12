@@ -11,12 +11,11 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "subscription")
 public class Subscription {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long subscription_id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long subscriptionId;
 
     @ManyToOne
     private User user;

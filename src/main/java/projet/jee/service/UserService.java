@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService{
-    public User saveUser(User user);
+    public User save(User user);
+    public List<User> save(Iterable<User> users);
 
-    public List<User> fetchUserList();
-    public Optional<User> fetchUserById(Long id);
+    public List<User> findAll();
+    public Optional<User> findById(Long id);
+    public User findByUsername(String username);
 }

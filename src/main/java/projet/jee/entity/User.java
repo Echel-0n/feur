@@ -1,9 +1,10 @@
 package projet.jee.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -13,18 +14,12 @@ import java.util.List;
 @Table(name = "app_user") // Car user déjà pris par SQL
 public class User {
 
-    private String username;
     private String password;
 
+    @Column(unique = true)
+    private String username;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
-
-    @OneToMany
-    private List<Subscription> subscriptions;
-
-    public User addSubscription(Subscription subscription){
-        subscriptions.add(subscription);
-        return this;
-    }
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long userId;
 }

@@ -12,17 +12,17 @@ public class ActivityServiceImpl implements ActivityService {
     @Autowired
     private ActivityRepository activityRepository;
     @Override
-    public Activity saveActivity(Activity activity) {
+    public Activity save(Activity activity) {
         return activityRepository.save(activity);
     }
 
     @Override
-    public List<Activity> fetchActivityList(){
+    public List<Activity> findAll(){
         return activityRepository.findAll();
     }
 
     @Override
-    public Optional<Activity> fetchActivityById(Long id) {
+    public Optional<Activity> findById(Long id) {
         return activityRepository.findById(id);
     }
 }

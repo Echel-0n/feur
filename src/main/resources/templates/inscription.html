@@ -17,7 +17,8 @@
 
 <section id="signup-form">
     <h2>Formulaire d'inscription</h2>
-    <form th:action="@{/inscription/confirm}" method="post">
+    <form th:action="@{/inscription}" method="post">
+        <input type="hidden" name="lastPage" th:value="${sendFromParam}">
         <label for="username">Username :</label>
         <input type="text" name="username" id="username"  required>
 

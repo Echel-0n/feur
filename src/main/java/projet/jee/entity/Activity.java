@@ -1,9 +1,13 @@
 package projet.jee.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
-
-import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -19,9 +23,6 @@ public class Activity {
     private String description;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long activity_id;
-
-    @OneToMany
-    private List<Subscription> subscriptions;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long activityId;
 }

@@ -55,28 +55,12 @@
 <!--            </blockquote>-->
 <!--            <cite>Jane Smith</cite>-->
 <!--        </div>-->
-        <h2>Me</h2>
-        <div th:if="${me != null}">
-            <blockquote>
-                <p th:text="${me.user_id}"></p>
-                <p th:text="${me.username}"></p>
-                <p th:text="${me.password}"></p>
-            </blockquote>
-        </div>
-        <h2>Users</h2>
-        <div th:each="u:${users}">
-            <blockquote>
-                <p th:text="${u.user_id}"></p>
-                <p th:text="${u.username}"></p>
-                <p th:text="${u.password}"></p>
-            </blockquote>
-        </div>
         <h2>Activités</h2>
         <div th:each="a:${activities}">
             <blockquote>
-                <p th:text="${a.activity_id}"></p>
+                <p th:text="${a.activityId}"></p>
                 <p th:text="${a.name}"></p>
-                <a th:href="@{/activities/{id}(id = ${a.activity_id})}">Details</a>
+                <a th:href="@{/activities/{id}(id = ${a.activityId})}">Details</a>
             </blockquote>
         </div>
     </section>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Page de connexion</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles.css}">
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><a href="/">Accueil</a></li>
+            <li th:if="${me == null}"><a href="/inscription">Inscription</a></li>
+            <li th:if="${me == null}"><a href="/connexion">Connexion</a></li>
+            <li th:if="${me != null}"><a href="/profile" th:text="${'Bienvenue ' + me.username}"></a></li>
+            <li th:if="${me != null}"><a href="/deconnexion">Deconnexion</a></li>
+        </ul>
+    </nav>
+</header>
+<h2>Profil</h2>
+<div th:each="u:${me}">
+    <blockquote>
+        <ul>
+            Id: <li th:text="${u.userId}"> </li>
+        Username: <li th:text="${u.username}"></li>
+        Password: <li th:text="${u.password}"></li>
+        <table>
+            <tr>
+                <td>ID</td>
+                <td>Nom</td>
+                <td>Telephone</td>
+                <td>Adresse</td>
+                <td>Ville</td>
+                <td>Description</td>
+            </tr>
+            <tr th:each="s:${subs}">
+                <td th:text="${s.activity.activityId}"></td>
+                <td th:if="${s.activity.name != null}" th:text="${s.activity.name}"></td>
+                <td th:unless="${s.activity.name != null}">Pas de nom</td>
+                <td th:if="${s.activity.tel != null}" th:text="${s.activity.tel}"></td>
+                <td th:unless="${s.activity.tel != null}">Pas de téléphone</td>
+                <td th:if="${s.activity.address != null}" th:text="${s.activity.address}"></td>
+                <td th:unless="${s.activity.address != null}">Pas d'adresse</td>
+                <td th:if="${s.activity.ville != null}" th:text="${s.activity.ville}"></td>
+                <td th:unless="${s.activity.ville != null}">Pas de ville</td>
+                <td th:if="${s.activity.description != null}" th:text="${s.activity.description}"></td>
+                <td th:unless="${s.activity.description != null}">Pas de description</td>
+                <td th:if="${s.note != null}" th:text="${s.note}"></td>
+                <td th:unless="${s.note != null}">Pas de note</td>
+            </tr>
+        </table>
+        </ul>
+    </blockquote>
+</div>
+</body>
+</html>

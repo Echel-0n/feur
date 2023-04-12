@@ -16,7 +16,8 @@
 </header>
 <div id="signup-form">
     <h2>Formulaire de connexion</h2>
-    <form action="/">
+    <form th:action="@{/connexion}" method="post">
+        <input type="hidden" name="lastPage" th:value="${sendFromParam}">
         <label for="username">Nom d'utilisateur :</label>
         <input type="text" id="username" name="username" required>
         <label for="password">Mot de passe :</label>

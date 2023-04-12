@@ -11,13 +11,17 @@
     <nav>
         <ul>
             <li><a href="/">Accueil</a></li>
+            <li th:if="${me == null}"><a href="/inscription">Inscription</a></li>
+            <li th:if="${me == null}"><a href="/connexion">Connexion</a></li>
+            <li th:if="${me != null}"><a href="/profile" th:text="${'Bienvenue ' + me.username}"></a></li>
+            <li th:if="${me != null}"><a href="/deconnexion">Deconnexion</a></li>
         </ul>
     </nav>
 </header>
 <h2>Activité</h2>
 <div th:each="a:${activity}">
     <blockquote>
-        Id: <p th:text="${a.activity_id}"></p>
+        Id: <p th:text="${a.activityId}"></p>
         Nom: <p th:text="${a.name}"></p>
         Tel: <p th:text="${a.tel}"></p>
         Adresse: <p th:text="${a.address}"></p>

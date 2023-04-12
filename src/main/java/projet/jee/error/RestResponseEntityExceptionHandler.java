@@ -12,11 +12,22 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ResponseStatus
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorMessage> userNotFoundException(NotFoundException notFoundException,
+    public ResponseEntity<ErrorMessage> notFoundException(NotFoundException notFoundException,
                                                               WebRequest webRequest){
-        ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND,
+        HttpStatus hs = HttpStatus.NOT_FOUND;
+        ErrorMessage message = new ErrorMessage(hs,
                 notFoundException.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        return ResponseEntity.status(hs)
+                .body(message);
+    }
+
+    @ExceptionHandler(AlreadyExistException.class)
+    public ResponseEntity<ErrorMessage> alreadyExistException(AlreadyExistException alreadyExistException,
+                                                              WebRequest webRequest){
+        HttpStatus hs = HttpStatus.CONFLICT;
+        ErrorMessage message = new ErrorMessage(hs,
+                alreadyExistException.getMessage());
+        return ResponseEntity.status(hs)
                 .body(message);
     }
 }
