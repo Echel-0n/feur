@@ -15,7 +15,7 @@ import lombok.Setter;
 public class Subscription {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long subscription_id;
 
     @ManyToOne

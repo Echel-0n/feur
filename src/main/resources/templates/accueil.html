@@ -55,6 +55,14 @@
 <!--            </blockquote>-->
 <!--            <cite>Jane Smith</cite>-->
 <!--        </div>-->
+        <h2>Me</h2>
+        <div th:if="${me != null}">
+            <blockquote>
+                <p th:text="${me.user_id}"></p>
+                <p th:text="${me.username}"></p>
+                <p th:text="${me.password}"></p>
+            </blockquote>
+        </div>
         <h2>Users</h2>
         <div th:each="u:${users}">
             <blockquote>

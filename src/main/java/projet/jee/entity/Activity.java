@@ -19,7 +19,7 @@ public class Activity {
     private String description;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long activity_id;
 
     @OneToMany

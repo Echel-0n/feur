@@ -10,14 +10,14 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "app_user")
+@Table(name = "app_user") // Car user déjà pris par SQL
 public class User {
 
     private String username;
     private String password;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long user_id;
 
     @OneToMany

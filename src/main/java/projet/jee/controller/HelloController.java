@@ -1,5 +1,8 @@
 package projet.jee.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +13,9 @@ import projet.jee.entity.User;
 import projet.jee.service.ActivityService;
 import projet.jee.service.UserService;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class HelloController {
@@ -21,9 +26,25 @@ public class HelloController {
 
     //page accueil + recherche programmes
     @RequestMapping(value={"", "/"})
-    public String main(Model model){
+    public String main(Model model, HttpSession httpSession){
         List<User> appUserList = userService.fetchUserList();
         List<Activity> activityList = activityService.fetchActivityList();
+
+        User me = null;
+        Object o = httpSession.getAttribute("user_id");
+        System.out.println(httpSession.getId());
+        System.out.println("pass1");
+        if (o != null){
+            System.out.println("pass2");
+            Optional<User> oMe = userService.fetchUserById((long)o);
+            if (oMe.isPresent()){
+                me = oMe.get();
+                System.out.println("pass3");
+            }
+        }
+
+        model.addAttribute("me", me);
+
         model.addAttribute("users", appUserList);
         model.addAttribute("activities", activityList);
         return "accueil"; // TODO
@@ -32,6 +53,18 @@ public class HelloController {
     @RequestMapping(value={"/inscription"})
     @ResponseBody
     public String inscription() { return "inscription"; }
+
+    @RequestMapping(value={"/deconnexion","/disconnect"})
+    @ResponseBody
+    public void deconnexion(
+            HttpSession session,
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws IOException {
+        session.invalidate();
+        System.out.println("disconnect : "+request.getQueryString());
+        response.sendRedirect("/");
+    }
 
     @RequestMapping(value={"/connexion"})
     @ResponseBody

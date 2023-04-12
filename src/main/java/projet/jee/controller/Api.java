@@ -1,11 +1,13 @@
 package projet.jee.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import projet.jee.entity.Subscription;
 import projet.jee.entity.Activity;
 import projet.jee.entity.SubscriptionShadow;
 import projet.jee.entity.User;
+import projet.jee.error.ErrorMessage;
 import projet.jee.error.NotFoundException;
 import projet.jee.service.SubscriptionService;
 import projet.jee.service.ActivityService;
@@ -15,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/api")
 public class Api {
     // Importation des services
     @Autowired
@@ -24,24 +27,20 @@ public class Api {
     @Autowired
     private SubscriptionService subscriptionService;
 
-    public Api() {
-
-    }
-
 
     // API User
 
-    @PostMapping("/api/users")
+    @PostMapping("/users")
     public User saveUser(@RequestBody User user) {
         return userService.saveUser(user);
     }
 
-    @GetMapping("/api/users")
+    @GetMapping("/users")
     public List<User> fetchUserList(){
         return userService.fetchUserList();
     }
 
-    @GetMapping("/api/users/{id}")
+    @GetMapping("/users/{id}")
     public User fetchUserById(@PathVariable("id") Long id) throws NotFoundException {
         Optional<User> ou =  userService.fetchUserById(id);
         if(ou.isEmpty()){
@@ -50,7 +49,7 @@ public class Api {
         return ou.get();
     }
 
-    @PostMapping("/api/users/{user_id}/subscribe/{activity_id}")
+    @PostMapping("/users/{user_id}/subscribe/{activity_id}")
     public Subscription subscribeUserToActivity(
             @PathVariable("user_id") Long user_id,
             @PathVariable("activity_id") Long activity_id
@@ -63,17 +62,17 @@ public class Api {
 
     // API Activity
 
-    @PostMapping("/api/activities")
+    @PostMapping("/activities")
     public Activity saveActivity(@RequestBody Activity activity) {
         return activityService.saveActivity(activity);
     }
 
-    @GetMapping("/api/activities")
+    @GetMapping("/activities")
     public List<Activity> fetchActivityList(){
         return activityService.fetchActivityList();
     }
 
-    @GetMapping("/api/activities/{id}")
+    @GetMapping("/activities/{id}")
     public Activity fetchActivityById(@PathVariable("id") Long id) throws NotFoundException {
         Optional<Activity> oa =  activityService.fetchActivityById(id);
         if(oa.isEmpty()){
@@ -85,12 +84,12 @@ public class Api {
 
     // API Subscription
 
-    @GetMapping("/api/subscriptions")
+    @GetMapping("/subscriptions")
     public List<Subscription> fetchSubscriptionList(){
         return subscriptionService.fetchSubscriptionList();
     }
 
-    @PostMapping("/api/subscriptions")
+    @PostMapping("/subscriptions")
     public Subscription subscribeUserToActivity(
             @RequestBody SubscriptionShadow subscriptionShadow
     ) throws NotFoundException {
@@ -113,4 +112,19 @@ public class Api {
         return s;
     }
 
+
+    // Exception API TODO
+
+    @RestController
+    @RequestMapping("/api-key")
+    public static class ApiNoKey {
+        @GetMapping("/missing")
+        public ErrorMessage apiKeyMissing(){
+            return new ErrorMessage(HttpStatus.BAD_REQUEST, "API Key missing");
+        }
+        @GetMapping("/bad")
+        public ErrorMessage apiKeyBad(){
+            return new ErrorMessage(HttpStatus.BAD_REQUEST, "Bad API Key");
+        }
+    }
 }
