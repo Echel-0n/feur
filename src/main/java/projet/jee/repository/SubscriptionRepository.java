@@ -8,7 +8,10 @@ import java.util.List;
 
 @Repository
 public interface SubscriptionRepository extends JpaRepository<Subscription,Long> {
-    Subscription findByUser_UserIdAndActivity_ActivityId(Long userId, Long activityId);
-    List<Subscription> findByUser_UserId(Long userId);
-    List<Subscription> findByActivity_ActivityId(Long activityId);
+
+    List<Subscription> findBySubscriptionID_User_UserId(Long userId);
+
+    List<Subscription> findBySubscriptionID_Activity_ActivityId(Long activityId);
+
+    Subscription findBySubscriptionID_User_UserIdAndSubscriptionID_Activity_ActivityId(Long userId, Long activityId);
 }

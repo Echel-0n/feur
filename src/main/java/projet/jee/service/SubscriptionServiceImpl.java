@@ -33,16 +33,16 @@ public class SubscriptionServiceImpl implements SubscriptionService{
 
     @Override
     public List<Subscription> findByUserId(Long id) {
-        return subscriptionRepository.findByUser_UserId(id);
+        return subscriptionRepository.findBySubscriptionID_User_UserId(id);
     }
 
     @Override
     public List<Subscription> findByActivityId(Long id) {
-        return subscriptionRepository.findByActivity_ActivityId(id);
+        return subscriptionRepository.findBySubscriptionID_Activity_ActivityId(id);
     }
 
     @Override
     public Subscription findByUserAndActivity(Long userId, Long activityId) {
-        return subscriptionRepository.findByUser_UserIdAndActivity_ActivityId(userId, activityId);
+        return subscriptionRepository.findBySubscriptionID_User_UserIdAndSubscriptionID_Activity_ActivityId(userId, activityId);
     }
 }

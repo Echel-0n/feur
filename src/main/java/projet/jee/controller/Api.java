@@ -5,10 +5,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import projet.jee.entity.Activity;
-import projet.jee.entity.Subscription;
-import projet.jee.entity.SubscriptionShadow;
-import projet.jee.entity.User;
+import projet.jee.entity.*;
 import projet.jee.error.AlreadyExistException;
 import projet.jee.error.ErrorMessage;
 import projet.jee.error.NotFoundException;
@@ -125,8 +122,7 @@ public class Api {
         }
         Activity a = oa.get();
         User u = ou.get();
-        s.setActivity(a);
-        s.setUser(u);
+        s.setSubscriptionID(new SubscriptionID(u, a));
         s = subscriptionService.save(s);
         return s;
     }

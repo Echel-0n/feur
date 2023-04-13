@@ -18,5 +18,4 @@ public class JeeApplication {
 	public PasswordEncoder encoder() {
 		return new BCryptPasswordEncoder();
 	}
-
 }

@@ -84,10 +84,14 @@ public class HelloController {
         try {
             api.saveUser(user);
         } catch (AlreadyExistException e) {
-            throw new RuntimeException(e);
+            return "redirect:/inscription"; // TODO Gestion erreur
         }
-        // TODO Vérifier données
         String lastPage = request.getParameter("lastPage");
+
+        String lastPageGet = request.getParameter("lastPage");
+        if (lastPageGet != null){
+            lastPage = lastPageGet;
+        }
 
         if (lastPage != null){
             return "redirect:/connexion?lastPage="+lastPage;
@@ -191,7 +195,7 @@ public class HelloController {
                 Subscription s = api.findSubscriptionByUserAndActivity(u.getUserId(), a.getActivityId());
                 if (s != null) {
                     model.addAttribute("isSubscribe", true);
-                    model.addAttribute("subscriptionId", s.getSubscriptionId());
+//                    model.addAttribute("subscriptionId", s.getSubscriptionId()); // TODO
                 } else {
                     model.addAttribute("isSubscribe", false);
                 }
