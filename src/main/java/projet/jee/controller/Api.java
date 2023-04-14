@@ -5,7 +5,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import projet.jee.entity.*;
+import projet.jee.entity.Activity;
+import projet.jee.entity.Subscription;
+import projet.jee.entity.User;
 import projet.jee.error.AlreadyExistException;
 import projet.jee.error.ErrorMessage;
 import projet.jee.error.NotFoundException;
@@ -42,10 +44,11 @@ public class Api {
         }
     }
 
-    @PostMapping(value = "/users2")
-    public List<User> saveUser(@RequestBody Iterable<User> users) throws AlreadyExistException {
+    @PatchMapping("/users")
+    public void updateUser(@RequestBody User user) throws AlreadyExistException {
         try {
-            return userService.save(users);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userService.update(user);
         } catch (DataIntegrityViolationException e) {
             throw new AlreadyExistException("Username already taken");
         }
@@ -71,16 +74,34 @@ public class Api {
             @PathVariable("activityId") Long activityId
     ) throws NotFoundException {
         return subscribeUserToActivity(
-                new SubscriptionShadow(userId, activityId)
+                new Subscription.Shadow(userId, activityId, null)
         );
+    }
+
+    @DeleteMapping("users/{userId}/unsubscribe/{activityId}")
+    public void unsubscribeUserToActivity(
+            @PathVariable("userId") Long userId,
+            @PathVariable("activityId") Long activityId
+    ) {
+        subscriptionService.unsubscribeByUserAndActivity(userId, activityId);
+    }
+
+    @DeleteMapping("/users/{id}")
+    public void deleteUserById(Long id) {
+        subscriptionService.deleteByUser(id);
+        userService.delete(id);
     }
 
 
     // API Activity
 
     @PostMapping("/activities")
-    public Activity saveActivity(@RequestBody Activity activity) {
-        return activityService.save(activity);
+    public List<Activity> saveActivity(@RequestBody List<Activity> activities) {
+//        List<Activity> res = new ArrayList<Activity>();
+        for(Activity activity : activities){
+            activityService.save(activity);
+        }
+        return activities;
     }
 
     @GetMapping("/activities")
@@ -97,17 +118,25 @@ public class Api {
         return oa.get();
     }
 
+    @DeleteMapping("/activities/{id}")
+    public void deleteActivityById(@PathVariable Long id){
+        subscriptionService.deleteByActivity(id);
+        activityService.delete(id);
+    }
+
+
+
 
     // API Subscription
 
-//    @GetMapping("/subscriptions")
-//    public List<Subscription> findAllSubscription(){
-//        return subscriptionService.findAll();
-//    }
+    @GetMapping("/subscriptions")
+    public List<Subscription> findAllSubscription(){
+        return subscriptionService.findAll();
+    }
 
     @PostMapping("/subscriptions")
     public Subscription subscribeUserToActivity(
-            @RequestBody SubscriptionShadow subscriptionShadow
+            @RequestBody Subscription.Shadow subscriptionShadow
     ) throws NotFoundException {
         Subscription s = new Subscription();
 
@@ -122,36 +151,37 @@ public class Api {
         }
         Activity a = oa.get();
         User u = ou.get();
-        s.setSubscriptionID(new SubscriptionID(u, a));
-        s = subscriptionService.save(s);
-        return s;
-    }
-
-    @GetMapping("/subscriptions/{id}")
-    public Subscription findSubscriptionById(
-            @PathVariable("id") Long id
-    ) throws NotFoundException {
-        Optional<Subscription> os =  subscriptionService.findById(id);
-        if(os.isEmpty()){
-            throw new NotFoundException("There is no Subscriber with id "+id);
-        }
-        return os.get();
+        s.setSubscriptionID(new Subscription.ID(u, a));
+        s.setNote(subscriptionShadow.getNote());
+        return subscriptionService.save(s);
     }
 
     @GetMapping("/subscriptions/user/{userId}")
-    public List<Subscription> findSubscriptionByUser(
+    public List<Subscription> findSubscriptionByUserInURL(
             @PathVariable("userId") Long userId
-    ) throws NotFoundException {
-        return subscriptionService.findByUserId(userId);
+    ) {
+        return findSubscriptionByUser(userId);
     }
 
     @GetMapping("/subscriptions/activity/{activityId}")
-    public List<Subscription> findSubscriptionByActivity(
+    public List<Subscription> findSubscriptionByActivityInURL(
             @PathVariable("activityId") Long activityId
-    ) throws NotFoundException {
-        return subscriptionService.findByActivityId(activityId);
+    ) {
+        return findSubscriptionByActivity(activityId);
     }
 
+    @GetMapping(value = "/subscriptions", params = {"user"})
+    public List<Subscription> findSubscriptionByUser(
+            @RequestParam("user") Long userId
+    ) {
+        return subscriptionService.findByUserId(userId);
+    }
+    @GetMapping(value = "/subscriptions", params = {"activity"})
+    public List<Subscription> findSubscriptionByActivity(
+            @RequestParam("activity") Long activityId
+    ) {
+        return subscriptionService.findByActivityId(activityId);
+    }
     @GetMapping(value = "/subscriptions", params = {"user","activity"})
     public Subscription findSubscriptionByUserAndActivity(
             @RequestParam("user") Long userId,

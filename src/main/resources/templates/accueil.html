@@ -1,84 +1,173 @@
 <!DOCTYPE html>
 <html lang="fr"
       xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil - Mon Site</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/styles.css}">
-    <script src="script.js"></script>
-</head>
+
+<head th:replace="~{@{/ress/head}}"></head>
+
 <body>
-<header>
-    <nav>
-        <ul>
-            <li><a href="/">Accueil</a></li>
-            <li th:if="${me == null}"><a href="/inscription">Inscription</a></li>
-            <li th:if="${me == null}"><a href="/connexion">Connexion</a></li>
-            <li th:if="${me != null}"><a href="/profile" th:text="${'Bienvenue ' + me.username}"></a></li>
-            <li th:if="${me != null}"><a href="/deconnexion">Deconnexion</a></li>
-        </ul>
-    </nav>
-</header>
-<main>
-    <section th:if="${me == null}" id="hero">
-        <h1>Bienvenue sur Mon Site</h1>
-        <p>Un accompagnement personnalisé pour vos activités physiques</p>
-        <a href="/inscription" class="cta">Inscrivez-vous maintenant</a>
-    </section>
-    <section id="services">
-        <h2>Nos services</h2>
-        <ul>
-            <li>
-                <h3>Programmes personnalisés</h3>
-                <p>Nos programmes sont adaptés à vos besoins et vos objectifs.</p>
-            </li>
-            <li>
-                <h3>Large choix d'activités</h3>
-                <p>Nous offrons une grande variété d'activités pour tous les niveaux.</p>
-            </li>
-            <li>
-                <h3>Évaluation des activités</h3>
-                <p>Nos utilisateurs peuvent évaluer les activités pour nous aider à les améliorer.</p>
-            </li>
-        </ul>
-    </section>
-    <section id="testimonials">
-<!--        <h2>Témoignages</h2>-->
-<!--        <div class="testimonial">-->
-<!--            <blockquote>-->
-<!--                <p>J'ai pu retrouver une activité physique adaptée à mes capacités grâce à Mon Site. Merci pour votre accompagnement !</p>-->
-<!--            </blockquote>-->
-<!--            <cite>John Doe</cite>-->
-<!--        </div>-->
-<!--        <div class="testimonial">-->
-<!--            <blockquote>-->
-<!--                <p>Mon Site m'a permis de découvrir de nouvelles activités que je n'aurais jamais essayées autrement. Je recommande !</p>-->
-<!--            </blockquote>-->
-<!--            <cite>Jane Smith</cite>-->
-<!--        </div>-->
-        <h2>Activités</h2>
-        <form action="/search" method="get">
-            <input type="text" placeholder="Nom de l'activité" name="inputname" id="inputname"/>
-        </form>
-        <div th:if="${search == null}" th:each="a:${activities}">
-            <blockquote>
-                <p th:text="${a.activityId}"></p>
-                <p th:text="${a.name}"></p>
-                <a th:href="@{/activities/{id}(id = ${a.activityId})}">Details</a>
-            </blockquote>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Chargement...</span>
         </div>
-        <div th:if="${search != null}" th:each="a:${search}">
-            <blockquote>
-                <p th:text="${a.activityId}"></p>
-                <p th:text="${a.name}"></p>
-                <a th:href="@{/activities/{id}(id = ${a.activityId})}">Details</a>
-            </blockquote>
+    </div>
+    <!-- Spinner End -->
+    <div th:replace="~{@{/ress/topbar}}"></div>
+
+    <!-- Navbar & Hero Start -->
+    <div class="container-fluid position-relative p-0">
+        <nav th:replace="~{@{/ress/navbar}}"></nav>
+
+        <div class="container-fluid bg-primary py-5 mb-5 hero-header">
+            <div class="container py-5">
+                <div class="row justify-content-center py-5">
+                    <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
+                        <h1 class="display-3 text-white mb-3 animated slideInDown">Vous allez aimer faire du sport</h1>
+                        <p class="fs-4 text-white mb-4 animated slideInDown">Toutes vos activités sportives ici, avec nous</p>
+                        <div class="position-relative w-75 mx-auto animated slideInDown">
+                            <form action="/activites" method="get">
+                            <input name="query" class="form-control border-0 rounded-pill w-100 py-3 ps-4 pe-5" type="text" placeholder="Ex: Aquabike">
+                            <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 position-absolute top-0 end-0 me-2" style="margin-top: 7px;">Rechercher</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </section>
-</main>
-<footer>
-    <p>Mon Site &copy; 2023</p>
-</footer>
+    </div>
+    <!-- Navbar & Hero End -->
+
+
+    <!-- About Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                    <div class="position-relative h-100">
+                        <img class="img-fluid position-absolute w-100 h-100" th:src="@{/img/about.jpg}" alt="" style="object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <h6 class="section-title bg-white text-start text-primary pe-3">A propos de nous</h6>
+                    <h1 class="mb-4">C'est l'heure du <span class="text-primary">Sport</span></h1>
+                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
+                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
+                    <div class="row gy-2 gx-4 mb-4">
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Un service 5 étoiles</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Dans toute la France</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>+ de 150 Activités</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Service 24/7</p>
+                        </div>
+                    </div>
+                    <a class="btn btn-primary py-3 px-5 mt-2" href="/activites">Voir plus</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+
+
+
+
+    <!-- Destination Start -->
+    <div class="container-xxl py-5 destination" th:if="${popularActivity1 != null && popularActivity2 != null && popularActivity3 != null && popularActivity4 != null}">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Activités</h6>
+                <h1 class="mb-5">Activités populaires</h1>
+            </div>
+            <div class="row g-3">
+                <div class="col-lg-7 col-md-6">
+                    <div class="row g-3">
+                        <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s" th:if="${popularActivity1 != null}">
+                            <a class="position-relative d-block overflow-hidden" th:href="@{/activites/{id}(id=${popularActivity1.activityId})}">
+                                <img class="img-fluid" th:src="@{/img/destination-1.jpg}" alt="">
+                                <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2" th:if="${popularActivity1.notationAverage != null}" th:text="@{{n} / 5(n = ${popularActivity1.notationAverage})}"></div>
+                                <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2" th:if="${popularActivity1.name != null}" th:text="${popularActivity1.name}"></div>
+                            </a>
+                        </div>
+                        <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s" th:if="${popularActivity2 != null}">
+                            <a class="position-relative d-block overflow-hidden" th:href="@{/activites/{id}(id=${popularActivity2.activityId})}">
+                                <img class="img-fluid" th:src="@{/img/destination-2.jpg}" alt="">
+                                <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2" th:if="${popularActivity2.notationAverage != null}" th:text="@{{n} / 5(n = ${popularActivity2.notationAverage})}"></div>
+                                <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2" th:if="${popularActivity2.name != null}" th:text="${popularActivity2.name}"></div>
+                            </a>
+                        </div>
+                        <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s" th:if="${popularActivity3 != null}">
+                            <a class="position-relative d-block overflow-hidden" th:href="@{/activites/{id}(id=${popularActivity3.activityId})}">
+                                <img class="img-fluid" th:src="@{/img/destination-3.jpg}" alt="">
+                                <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2" th:if="${popularActivity3.notationAverage != null}" th:text="@{{n} / 5(n = ${popularActivity3.notationAverage})}"></div>
+                                <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2" th:if="${popularActivity3.name != null}" th:text="${popularActivity3.name}"></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-6 wow zoomIn" data-wow-delay="0.7s" style="min-height: 350px;" th:if="${popularActivity4 != null}">
+                    <a class="position-relative d-block h-100 overflow-hidden" th:href="@{/activites/{id}(id=${popularActivity4.activityId})}">
+                        <img class="img-fluid position-absolute w-100 h-100" th:src="@{/img/destination-4.jpg}" alt="" style="object-fit: cover;">
+                        <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2" th:if="${popularActivity4.notationAverage != null}" th:text="@{{n} / 5(n = ${popularActivity4.notationAverage})}"></div>
+                        <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2" th:if="${popularActivity4.name != null}" th:text="${popularActivity4.name}"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Destination Start -->
+
+    <!-- Process Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center pb-4 wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Simple</h6>
+                <h1 class="mb-5">3 étapes faciles</h1>
+            </div>
+            <div class="row gy-5 gx-4 justify-content-center">
+                <div class="col-lg-4 col-sm-6 text-center pt-4 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="position-relative border border-primary pt-5 pb-4 px-4">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-primary rounded-circle position-absolute top-0 start-50 translate-middle shadow" style="width: 100px; height: 100px;">
+                            <i class="fa fa-globe fa-3x text-white"></i>
+                        </div>
+                        <h5 class="mt-4">Choisir une activité</h5>
+                        <hr class="w-25 mx-auto bg-primary mb-1">
+                        <hr class="w-50 mx-auto bg-primary mt-0">
+                        <p class="mb-0">Tempor erat elitr rebum clita dolor diam ipsum sit diam amet diam eos erat ipsum et lorem et sit sed stet lorem sit</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 text-center pt-4 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="position-relative border border-primary pt-5 pb-4 px-4">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-primary rounded-circle position-absolute top-0 start-50 translate-middle shadow" style="width: 100px; height: 100px;">
+                            <i class="fa fa-wind fa-3x text-white"></i>
+                        </div>
+                        <h5 class="mt-4">En profiter</h5>
+                        <hr class="w-25 mx-auto bg-primary mb-1">
+                        <hr class="w-50 mx-auto bg-primary mt-0">
+                        <p class="mb-0">Tempor erat elitr rebum clita dolor diam ipsum sit diam amet diam eos erat ipsum et lorem et sit sed stet lorem sit</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 text-center pt-4 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="position-relative border border-primary pt-5 pb-4 px-4">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-primary rounded-circle position-absolute top-0 start-50 translate-middle shadow" style="width: 100px; height: 100px;">
+                            <i class="fa fa-star fa-3x text-white"></i>
+                        </div>
+                        <h5 class="mt-4">Noter</h5>
+                        <hr class="w-25 mx-auto bg-primary mb-1">
+                        <hr class="w-50 mx-auto bg-primary mt-0">
+                        <p class="mb-0">Tempor erat elitr rebum clita dolor diam ipsum sit diam amet diam eos erat ipsum et lorem et sit sed stet lorem sit</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Process Start -->
+
+    <div th:replace="~{@{/ress/footer}}"></div>
 </body>
+
 </html>

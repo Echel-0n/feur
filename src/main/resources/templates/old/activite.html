@@ -14,6 +14,7 @@
             <li th:if="${me == null}"><a href="/inscription">Inscription</a></li>
             <li th:if="${me == null}"><a href="/connexion">Connexion</a></li>
             <li th:if="${me != null}"><a href="/profile" th:text="${'Bienvenue ' + me.username}"></a></li>
+            <li th:if="${me != null && me.admin == true}"><a th:if="" href="/admin" >Admin</a></li>
             <li th:if="${me != null}"><a href="/deconnexion">Deconnexion</a></li>
         </ul>
     </nav>
@@ -29,6 +30,11 @@
         Description: <p th:text="${a.description}"></p>
         <form th:action="@{/activities/{id}/subscribe(id = ${a.activityId})}" method="post">
             <button type="submit">Ajouter activité à votre profil</button>
+        </form>
+        <form th:if="${isSubscribe}" th:action="@{/activities/{id}/note(id = ${a.activityId})}" method="post">
+            <input name="notation" type="number" th:if="${note == null}" placeholder="0-5"/>
+            <input name="notation" type="number" th:unless="${note == null}" th:value="${note}" placeholder="0-5"/>
+            <button type="submit">Noter</button>
         </form>
     </blockquote>
 </div>

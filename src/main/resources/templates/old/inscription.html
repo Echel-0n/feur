@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Inscription</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles.css}">
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><a href="/">Accueil</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section id="signup-form">
+    <h2>Formulaire d'inscription</h2>
+    <form th:action="@{/inscription}" method="post">
+        <input type="hidden" name="lastPage" th:value="${sendFromParam}">
+        <label for="username">Username :</label>
+        <input type="text" name="username" id="username"  required>
+
+        <label for="motdepasse">Mot de passe :</label>
+        <input type="password" name="password" id="motdepasse"  required>
+
+        <label for="confirmermotdepasse">Confirmer le mot de passe :</label>
+        <input type="password" name="confirmermotdepasse" id="confirmermotdepasse" required>
+
+        <button type="submit">S'inscrire</button>
+    </form>
+    <a href="/connexion">Déja inscrit ?</a>
+</section>
+
+
+</body>
+</html>

@@ -14,6 +14,7 @@
             <li th:if="${me == null}"><a href="/inscription">Inscription</a></li>
             <li th:if="${me == null}"><a href="/connexion">Connexion</a></li>
             <li th:if="${me != null}"><a href="/profile" th:text="${'Bienvenue ' + me.username}"></a></li>
+            <li th:if="${me != null}"><a th:if="${me.admin == true}" href="/admin" >Admin</a></li>
             <li th:if="${me != null}"><a href="/deconnexion">Deconnexion</a></li>
         </ul>
     </nav>

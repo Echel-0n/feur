@@ -18,6 +18,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void update(User user) {
+        userRepository.updateUsernameAndPasswordByUserId(user.getUsername(), user.getPassword(), user.getUserId());
+    }
+
+    @Override
     public List<User> save(Iterable<User> users) {
         return userRepository.saveAll(users);
     }
@@ -35,5 +40,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public User findByUsername(String username) {
         return userRepository.getByUsername(username);
+    }
+
+    @Override
+    public void delete(Long id) {
+        userRepository.deleteById(id);
     }
 }

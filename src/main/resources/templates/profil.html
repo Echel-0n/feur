@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{@{/ress/head}}"></head>
+
+<body>
+<!-- Spinner Start -->
+<div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Chargement...</span>
+    </div>
+</div>
+<!-- Spinner End -->
+
+
+<div th:replace="~{@{/ress/topbar}}"></div>
+
+
+<!-- Navbar & Hero Start -->
+<div class="container-fluid position-relative p-0">
+    <nav th:replace="~{@{/ress/navbar}}"></nav>
+
+    <div class="container-fluid bg-primary py-5 mb-5 hero-header">
+        <div class="container py-5">
+            <div class="row justify-content-center py-5">
+                <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
+                    <h1 class="display-3 text-white animated slideInDown">Profil</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+                            <li class="breadcrumb-item text-white active" aria-current="page">Profil</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Navbar & Hero End -->
+
+
+<!-- About Start -->
+<div class="position-relative w-75 mx-auto animated fadeInUp">
+    <form action="/profil/edit" method="post">
+        <input th:value="${me.username}" style="margin-bottom:1.5rem" name="username" class="form-control border-0 rounded-pill w-100 py-3 ps-4 pe-5" type="text" placeholder="Nom d'utilisateur" required>
+        <input style="margin-bottom:1.5rem" name="password" class="form-control border-0 rounded-pill w-100 py-3 ps-4 pe-5" type="password" placeholder="Mot de passe" required>
+        <p th:if="${error != null}" style="color:red" th:text="${error}"></p>
+        <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 bottom-0 end-40 me-2" style="margin-top: 7px;">Modifier</button>
+        <a href="" class="btn rounded-pill py-2 px-4 bottom-0 end-40 me-2" style="margin-top: 7px;">Annuler</a>
+    </form>
+</div>
+<div class="container-xxl py-5">
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
+        <h6 class="section-title bg-white text-center text-primary px-3">Activités</h6>
+        <h1 class="mb-5">Vos activités</h1>
+    </div>
+</div>
+<div th:each="s:${subs}" class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                <div class="position-relative h-100">
+                    <img class="img-fluid position-absolute w-100 h-100" th:src="@{/img/about.jpg}" alt="" style="object-fit: cover;">
+                </div>
+            </div>
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                <h6 class="section-title bg-white text-start text-primary pe-3" th:text="${s.activity.name}"></h6>
+                <h1 class="mb-4">Vous l'avez aimer ? <span class="text-primary" th:text="${s.activity.name}"></span></h1>
+                <p class="mb-4" th:text="${s.activity.description}"></p>
+                <div class="row gy-2 gx-4 mb-4">
+                    <div th:if="${s.activity.address != null && s.activity.ville != null}" class="col-sm-6">
+                        <p class="mb-0"><i class="fa fa-map-marker-alt text-primary me-2"></i><i th:text="${s.activity.address}"></i>, <i th:text="${s.activity.ville}"></i></p>
+                    </div>
+                    <div th:if="${s.activity.tel != null}" class="col-sm-6">
+                        <p class="mb-0"><i class="fa fa-phone-alt text-primary me-2"></i><i th:text="${s.activity.tel}"></i></p>
+                    </div>
+                    <div th:if="${s.activity.mail != null}" class="col-sm-6">
+                        <p class="mb-0"><i class="fa fa-envelope-open text-primary me-2"></i><i th:text="${s.activity.mail}"></i></p>
+                    </div>
+                    <div th:if="${s.activity.notationAverage != null}" class="col-sm-6">
+                        <p class="mb-0"><i class="fa fa-star text-primary me-2"></i>Une activité notée en moyenne <i th:text="${s.activity.notationAverage}"></i> étoiles</p>
+                    </div>
+                </div>
+                <a class="btn btn-primary py-3 px-5 mt-2" th:href="@{/activites/{id}(id = ${s.activity.activityId})}">Aller noter</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- About End -->
+
+<div th:replace="~{@{/ress/footer}}"></div>
+</body>
+
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{@{/ress/head}}"></head>
+
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Chargement...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <div th:replace="~{@{/ress/topbar}}"></div>
+
+
+    <!-- Navbar & Hero Start -->
+    <div class="container-fluid position-relative p-0">
+        <nav th:replace="~{@{/ress/navbar}}"></nav>
+
+        <div class="container-fluid bg-primary py-5 mb-5 hero-header">
+            <div class="container py-5">
+                <div class="row justify-content-center py-5">
+                    <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
+                        <h1 class="display-3 text-white animated slideInDown" th:text="${activity.name}"></h1>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-center">
+                                <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+                                <li class="breadcrumb-item"><a href="/activites">Activités</a></li>
+                                <li class="breadcrumb-item text-white active" th:text="${activity.name}" aria-current="page"></li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Navbar & Hero End -->
+
+
+    <!-- About Start -->
+    <div th:if="${isEditing == null}" class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                    <div class="position-relative h-100">
+                        <img class="img-fluid position-absolute w-100 h-100" th:src="@{/img/about.jpg}" alt="" style="object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <h6 class="section-title bg-white text-start text-primary pe-3" th:text="${activity.name}"></h6>
+                    <h1 class="mb-4">Essayez le : <span class="text-primary" th:text="${activity.name}"></span></h1>
+                    <p class="mb-4" th:text="${activity.description}"></p>
+                    <div class="row gy-2 gx-4 mb-4">
+                        <div th:if="${activity.address != null}" class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-map-marker-alt text-primary me-2"></i><i th:text="${activity.address}"></i>, <i th:text="${activity.ville}"></i></p>
+                        </div>
+                        <div th:if="${activity.tel != null}" class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-phone-alt text-primary me-2"></i><i th:text="${activity.tel}"></i></p>
+                        </div>
+                        <div th:if="${activity.mail != null}" class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-envelope-open text-primary me-2"></i><i th:text="${activity.mail}"></i></p>
+                        </div>
+                        <div th:if="${activity.notationAverage != null}" class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-star text-primary me-2"></i>Une activité notée en moyenne <i th:text="${activity.notationAverage}"></i> étoiles</p>
+                        </div>
+                    </div>
+                    <div th:if="${isSubscribe == true}">
+                        <h3 class="mb-4">
+                            Notez moi :
+                            <a th:style="${note < 1} ? @{color:gray}" th:href="@{/activites/{id}/note/1(id=${activity.activityId})}"><i class="fa fa-star me-2" style="cu: none;"></i></a>
+                            <a th:style="${note < 2} ? @{color:gray}" th:href="@{/activites/{id}/note/2(id=${activity.activityId})}"><i class="fa fa-star me-2" style="cu: none;"></i></a>
+                            <a th:style="${note < 3} ? @{color:gray}" th:href="@{/activites/{id}/note/3(id=${activity.activityId})}"><i class="fa fa-star me-2" style="cu: none;"></i></a>
+                            <a th:style="${note < 4} ? @{color:gray}" th:href="@{/activites/{id}/note/4(id=${activity.activityId})}"><i class="fa fa-star me-2" style="cu: none;"></i></a>
+                            <a th:style="${note < 5} ? @{color:gray}" th:href="@{/activites/{id}/note/5(id=${activity.activityId})}"><i class="fa fa-star me-2" style="cu: none;"></i></a>
+                        </h3>
+                    </div>
+                    <div>
+                        <a th:if="${isConnected == null}" class="btn btn-primary py-3 px-5 mt-2" href="/connexion">Se connecter</a>
+                        <a th:if="${isConnected != null && isSubscribe == null}" class="btn btn-primary py-3 px-5 mt-2" th:href="@{/activites/{id}/subscribe(id = ${activity.activityId})}">S'inscrire</a>
+                        <a th:if="${isConnected != null && isSubscribe != null}" class="btn btn-primary py-3 px-5 mt-2" th:href="@{/activites/{id}/unsubscribe(id = ${activity.activityId})}">Se désinscrire</a>
+                        <a th:if="${isConnected != null && isAdmin != null}" style="color: red;border-color: red;background-color: transparent;" class="btn btn-primary py-3 px-5 mt-2" th:href="@{/admin/activites/{id}/edit(id = ${activity.activityId})}">Modifier</a>
+                        <a th:if="${isConnected != null && isAdmin != null}" style="color: white; background: red; border-color: red;" class="btn btn-primary py-3 px-5 mt-2" th:href="@{/admin/activites/{id}/delete(id = ${activity.activityId})}">Supprimer</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:if="${isEditing != null}" class="container-xxl py-5">
+        <form th:action="@{/admin/activites/{id}/edit(id = ${activity.activityId})}" method="post">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                    <div class="position-relative h-100">
+                        <img class="img-fluid position-absolute w-100 h-100" th:src="@{/img/about.jpg}" alt="" style="object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <h6 class="section-title bg-white text-start text-primary pe-3" th:text="${activity.name}"></h6>
+                    <h1 class="mb-4">Essayez le : <input type="text" class="text-primary" name="name" th:value="${activity.name}" required placeholder="Nom"></h1>
+                    <input type="textarea" name="description" class="mb-4" th:value="${activity.description}" placeholder="Description">
+                    <div class="row gy-2 gx-4 mb-4">
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-map-marker-alt text-primary me-2"></i><input type="text" name="address" th:value="${activity.address}" placeholder="Adresse">, <input type="text" name="ville" th:value="${activity.ville}" placeholder="Ville"></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-phone-alt text-primary me-2"></i><input type="text" name="tel" th:value="${activity.tel}" placeholder="Téléphone"></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-envelope-open text-primary me-2"></i><input type="text" name="mail" th:value="${activity.mail}" placeholder="Mail"></p>
+                        </div>
+                        <div th:if="${activity.notationAverage != null}" class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-star text-primary me-2"></i>Une activité notée en moyenne <i th:text="${activity.notationAverage}"></i> étoiles</p>
+                        </div>
+                    </div>
+                    <button type="submit" style="color: white; background: red; border-color: red;" class="btn btn-primary py-3 px-5 mt-2">Valider</button>
+                    <a style="color: red;border-color: red;background-color: transparent;" class="btn btn-primary py-3 px-5 mt-2" th:href="@{/activites/{id}(id = ${activity.activityId})}">Annuler</a>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+    <!-- About End -->
+
+    <div th:replace="~{@{/ress/footer}}"></div>
+</body>
+
+</html>

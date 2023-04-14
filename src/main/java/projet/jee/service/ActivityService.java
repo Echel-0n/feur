@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ActivityService {
-    public Activity save(Activity activity);
+    Activity save(Activity activity);
 
-    public List<Activity> findAll();
-    public Optional<Activity> findById(Long id);
-    public List<Activity> findByNameLike(String name);
+    List<Activity> findAll();
+     Optional<Activity> findById(Long id);
+    List<Activity> findByNameLike(String name);
+    void update(Activity activity);
+    void delete(Long id);
 
 }

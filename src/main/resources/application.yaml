@@ -1,9 +1,6 @@
 server:
   port: 80
 
-welcome:
-  message: "Hello World"
-
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

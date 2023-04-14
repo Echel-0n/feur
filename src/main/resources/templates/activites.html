@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{@{/ress/head}}"><title>Feur</title></head>
+
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Chargement...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <div th:replace="~{@{/ress/topbar}}"></div>
+
+
+    <!-- Navbar & Hero Start -->
+    <div class="container-fluid position-relative p-0">
+        <nav th:replace="~{@{/ress/navbar}}"></nav>
+
+        <div class="container-fluid bg-primary py-5 mb-5 hero-header">
+            <div class="container py-5">
+                <div class="row justify-content-center py-5">
+                    <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
+                        <h1 class="display-3 text-white animated slideInDown">Activités<i th:if="${query != null}"> :</i></h1>
+                        <h3 th:if="${query != null}" class="display-3 animated slideInDown text-primary" th:text="${query}"></h3>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-center">
+                                <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+                                <li class="breadcrumb-item text-white active" aria-current="page">Activités</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Navbar & Hero End -->
+
+
+    <!-- About Start -->
+    <div th:if="${isNoResult == true}" class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center pb-4 wow fadeInUp" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
+                <h6 class="section-title bg-white text-center text-primary px-3">Ooouuuppppssss...</h6>
+                <h1 class="mb-5">Nous ne parvenons pas à trouver de sport à votre pointure</h1>
+            </div>
+
+        </div>
+    </div>
+    <div th:if="${isNoResult != true}" th:each="act:${listActivities}" class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                    <div class="position-relative h-100">
+                        <img class="img-fluid position-absolute w-100 h-100" th:src="@{/img/about.jpg}" alt="" style="object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <h6 class="section-title bg-white text-start text-primary pe-3" th:text="${act.name}"></h6>
+                    <h1 class="mb-4">Essayez le : <span class="text-primary" th:text="${act.name}"></span></h1>
+					<p class="mb-4" th:text="${act.description}"></p>
+                    <div class="row gy-2 gx-4 mb-4">
+                        <div th:if="${act.address != null && act.ville != null}" class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-map-marker-alt text-primary me-2"></i><i th:text="${act.address}"></i>, <i th:text="${act.ville}"></i></p>
+                        </div>
+                        <div th:if="${act.tel != null}" class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-phone-alt text-primary me-2"></i><i th:text="${act.tel}"></i></p>
+                        </div>
+                        <div th:if="${act.mail != null}" class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-envelope-open text-primary me-2"></i><i th:text="${act.mail}"></i></p>
+                        </div>
+                        <div th:if="${act.notationAverage != null}" class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-star text-primary me-2"></i>Une activité notée en moyenne <i th:text="${act.notationAverage}"></i> étoiles</p>
+                        </div>
+                    </div>
+                    <a class="btn btn-primary py-3 px-5 mt-2" th:href="@{/activites/{id}(id = ${act.activityId})}">Voir plus</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+
+    <div th:replace="~{@{/ress/footer}}"></div>
+</body>
+
+</html>
