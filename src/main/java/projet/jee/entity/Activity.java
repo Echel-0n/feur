@@ -17,6 +17,7 @@ public class Activity {
     private String address;
     private String mail;
     private String ville;
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Id

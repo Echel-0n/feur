@@ -9,7 +9,12 @@ import org.springframework.core.annotation.Order;
 import java.io.IOException;
 
 @WebFilter(urlPatterns = {
-        "/admin/*", "/profile", "/activities/*", "/users/*","/search"
+        "/deconnexion",
+        "/profil",
+        "/profil/*",
+        "/activites/{id}/*",
+        "/admin",
+        "/admin/*"
 })
 @Order(1)
 public class ConnectionNeededFilter implements Filter {

@@ -28,4 +28,18 @@ public class ActivityServiceImpl implements ActivityService {
     public List<Activity> findByNameLike(String name){
         return activityRepository.findByNameLike(name);
     }
+
+    public void update(Activity a) {
+        activityRepository.updateNameAndTelAndAddressAndVilleAndDescriptionByActivityId(
+                a.getName(),
+                a.getTel(),
+                a.getAddress(),
+                a.getVille(),
+                a.getDescription(),
+                a.getActivityId()
+        );
+    }
+    public void delete(Long id) {
+        activityRepository.deleteById(id);
+    }
 }

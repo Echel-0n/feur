@@ -22,4 +22,6 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
+
+    private boolean admin;
 }
