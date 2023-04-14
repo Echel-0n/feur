@@ -43,7 +43,7 @@ public class Activity {
 
         if (compteur > 0) {
             float na = sum / compteur;
-            notationAverage = (float) ((int) (na * 10) /10); // *,* étoiles (1 chiffre après virgule)
+            notationAverage = (float) (int) (na * 10) /10; // *,* étoiles (1 chiffre après virgule)
         } else {
             notationAverage = null;
         }

@@ -16,17 +16,10 @@ public class UserServiceImpl implements UserService{
     public User save(User user) {
         return userRepository.save(user);
     }
-
     @Override
     public void update(User user) {
         userRepository.updateUsernameAndPasswordByUserId(user.getUsername(), user.getPassword(), user.getUserId());
     }
-
-    @Override
-    public List<User> save(Iterable<User> users) {
-        return userRepository.saveAll(users);
-    }
-
     @Override
     public List<User> findAll(){
         return userRepository.findAll();
