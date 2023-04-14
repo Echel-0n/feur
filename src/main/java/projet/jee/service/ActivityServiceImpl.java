@@ -30,9 +30,10 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     public void update(Activity a) {
-        activityRepository.updateNameAndTelAndAddressAndVilleAndDescriptionByActivityId(
+        activityRepository.updateNameAndTelAndMailAndAddressAndVilleAndDescriptionByActivityId(
                 a.getName(),
                 a.getTel(),
+                a.getMail(),
                 a.getAddress(),
                 a.getVille(),
                 a.getDescription(),

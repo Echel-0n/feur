@@ -11,6 +11,12 @@ import java.util.List;
 
 @Repository
 public interface ActivityRepository extends JpaRepository<Activity,Long> {
+    @Transactional
+    @Modifying
+    @Query("""
+            update Activity a set a.name = ?1, a.tel = ?2, a.mail = ?3, a.address = ?4, a.ville = ?5, a.description = ?6
+            where a.activityId = ?7""")
+    void updateNameAndTelAndMailAndAddressAndVilleAndDescriptionByActivityId(String name, String tel, String mail, String address, String ville, String description, Long activityId);
 
     @Transactional
     @Modifying
