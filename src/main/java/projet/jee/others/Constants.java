@@ -13,6 +13,8 @@ import java.util.Optional;
 
 public abstract class Constants {
 
+    public final static String API_KEY = "KEY-FEUR";
+
     public static void applyModel(Model model, HttpServletRequest request,
                                   UserService userService){
         model.addAttribute("isConnected", isConnected(request));
