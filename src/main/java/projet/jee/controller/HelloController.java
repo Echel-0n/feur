@@ -165,29 +165,40 @@ public class HelloController {
             Model model,
             HttpServletRequest request,
             HttpServletResponse response
-    ) throws Exception{
-        Object o = request.getSession(false).getAttribute("userId");
-        User u = api.fetchUserById((long)o);
-        model.addAttribute("me",u);
-        List<Subscription> subsList = api.findSubscriptionByUser(u.getUserId());
-        model.addAttribute("subs",subsList);
+    ) {
+        HttpSession s = request.getSession(false);
+        if (s != null) {
+            Object o = s.getAttribute("userId");
+            try {
+                User u = api.fetchUserById((long) o);
+                model.addAttribute("me", u);
+                List<Subscription> subsList = api.findSubscriptionByUser(u.getUserId());
+                model.addAttribute("subs", subsList);
 
-        Constants.applyModel(model, request, userService);
-        model.addAttribute("error", request.getParameter("error"));
-        Constants.setLastPage("/profil", response);
-        return "profil";
+                Constants.applyModel(model, request, userService);
+                model.addAttribute("error", request.getParameter("error"));
+                Constants.setLastPage("/profil", response);
+                return "profil";
+            } catch (NotFoundException ignored) {}
+        }
+        return "redirect:"+Constants.getLastPage("/404", request);
     }
 
     @PostMapping(value={"/profil/edit"})
-    public String profilEdit(HttpServletRequest request) throws Exception{
-        Object o = request.getSession(false).getAttribute("userId");
-        User u = api.fetchUserById((long)o);
-        u.setUsername(request.getParameter("username"));
-        u.setPassword(request.getParameter("password"));
-        try {
-            api.updateUser(u);
-        } catch (AlreadyExistException ignored) {
-            return "redirect:/profil?error=Nom d'utilisateur deja pris";
+    public String profilEdit(HttpServletRequest request) {
+        HttpSession s = request.getSession(false);
+        if (s!=null) {
+            Object o = s.getAttribute("userId");
+            try {
+                User u = api.fetchUserById((long) o);
+                u.setUsername(request.getParameter("username"));
+                u.setPassword(request.getParameter("password"));
+                try {
+                    api.updateUser(u);
+                } catch (AlreadyExistException ignored) {
+                    return "redirect:/profil?error=Nom d'utilisateur deja pris";
+                }
+            } catch (NotFoundException ignored) {}
         }
         return "redirect:"+Constants.getLastPage("/profil", request);
     }
@@ -219,13 +230,13 @@ public class HelloController {
         return "activites";
     }
 
-    @RequestMapping(value={"/activites/{id}"})
+    @GetMapping(value={"/activites/{id}"})
     public String activite(
             @PathVariable("id") Long id,
             Model model,
             HttpServletRequest request,
             HttpServletResponse response
-    ) throws Exception{
+    ){
         Optional<Activity> oa = activityService.findById(id);
         if (oa.isPresent()){ // Activité existante
             Activity a = oa.get();
@@ -234,20 +245,22 @@ public class HelloController {
             HttpSession ses = request.getSession(false);
             if (ses != null) {
                 Long uId = (Long)ses.getAttribute("userId");
-                User u = api.fetchUserById(uId);
-                model.addAttribute("me",u);
+                try {
+                    User u = api.fetchUserById(uId);
+                    model.addAttribute("me",u);
 
-                Subscription s = api.findSubscriptionByUserAndActivity(u.getUserId(), a.getActivityId());
-                if (s != null) {
-                    model.addAttribute("isSubscribe", true);
-                    model.addAttribute("note", s.getNote());
-                } else {
-                    model.addAttribute("isSubscribe", null);
-                }
+                    Subscription s = api.findSubscriptionByUserAndActivity(u.getUserId(), a.getActivityId());
+                    if (s != null) {
+                        model.addAttribute("isSubscribe", true);
+                        model.addAttribute("note", s.getNote());
+                    } else {
+                        model.addAttribute("isSubscribe", null);
+                    }
+                } catch (NotFoundException ignored){}
             }
             Constants.applyModel(model, request, userService);
             Constants.setLastPage("/activites/"+id, response);
-            return "activites-id";
+            return "activite";
         } else { // Activité inexistante
             return "redirect:/404";
         }
@@ -282,14 +295,18 @@ public class HelloController {
             @PathVariable Long activityId,
             HttpServletRequest request
     ) {
-        Object o = request.getSession(false).getAttribute("userId");
-        if (o != null){
-            Optional<User> ou = userService.findById((long)o);
-            if (ou.isPresent()){
-                User u = ou.get();
-                try {
-                    api.subscribeUserToActivity(u.getUserId(),activityId);
-                } catch (NotFoundException ignored) {}
+        HttpSession s = request.getSession(false);
+        if (s != null) {
+            Object o = s.getAttribute("userId");
+            if (o != null) {
+                Optional<User> ou = userService.findById((long) o);
+                if (ou.isPresent()) {
+                    User u = ou.get();
+                    try {
+                        api.subscribeUserToActivity(u.getUserId(), activityId);
+                    } catch (NotFoundException ignored) {
+                    }
+                }
             }
         }
         return "redirect:"+Constants.getLastPage("/activites/"+activityId, request);
@@ -300,12 +317,15 @@ public class HelloController {
             @PathVariable Long activityId,
             HttpServletRequest request
     ) {
-        Object o = request.getSession(false).getAttribute("userId");
-        if (o != null){
-            Optional<User> ou = userService.findById((long)o);
-            if (ou.isPresent()){
-                User u = ou.get();
-                api.unsubscribeUserToActivity(u.getUserId(),activityId);
+        HttpSession s = request.getSession(false);
+        if (s != null) {
+            Object o = s.getAttribute("userId");
+            if (o != null) {
+                Optional<User> ou = userService.findById((long) o);
+                if (ou.isPresent()) {
+                    User u = ou.get();
+                    api.unsubscribeUserToActivity(u.getUserId(), activityId);
+                }
             }
         }
         return "redirect:"+Constants.getLastPage("/activites/"+activityId, request);
@@ -320,16 +340,21 @@ public class HelloController {
             HttpServletResponse response,
             Model model
     ){
-        Object o = request.getSession(false).getAttribute("userId");
-        Optional<User> ou = userService.findById((long)o);
-        if (ou.isPresent()){
-            User u = ou.get();
-            model.addAttribute("me",u);
-            List<User> userList = userService.findAll();
-            model.addAttribute("users",userList);
-            Constants.applyModel(model, request, userService);
-            Constants.setLastPage("/admin", response);
-            return "admin";
+        HttpSession s = request.getSession(false);
+        if (s!=null) {
+            Object o = s.getAttribute("userId");
+            if (o!=null) {
+                Optional<User> ou = userService.findById((long) o);
+                if (ou.isPresent()) {
+                    User u = ou.get();
+                    model.addAttribute("me", u);
+                    List<User> userList = userService.findAll();
+                    model.addAttribute("users", userList);
+                    Constants.applyModel(model, request, userService);
+                    Constants.setLastPage("/admin", response);
+                    return "admin";
+                }
+            }
         }
         return "redirect:"+Constants.getLastPage("/", request);
     }
@@ -343,10 +368,10 @@ public class HelloController {
 
     @GetMapping("/admin/activites/{id}/edit")
     public String updateActivity(
+            @PathVariable Long id,
             Model model,
             HttpServletRequest request,
-            HttpServletResponse response,
-            @PathVariable Long id
+            HttpServletResponse response
     ) {
         Optional<Activity> oa = activityService.findById(id);
         if (oa.isPresent()){ // Activité existante
@@ -363,7 +388,7 @@ public class HelloController {
                         model.addAttribute("isEditing", true);
                         Constants.applyModel(model, request, userService);
                         Constants.setLastPage("/admin/activites/"+id+"/edit", response);
-                        return "activites-id";
+                        return "activite";
                     }
                 } catch (NotFoundException ignored) {}
             }
@@ -399,18 +424,22 @@ public class HelloController {
     }
 
     @PostMapping("/admin/users/{id}/promote")
-    public String promoteUser(@PathVariable Long id, HttpServletRequest request) throws Exception{
-        User u = api.fetchUserById(id);
-        u.setAdmin(true);
-        userService.save(u);
+    public String promoteUser(@PathVariable Long id, HttpServletRequest request) {
+        try {
+            User u = api.fetchUserById(id);
+            u.setAdmin(true);
+            userService.save(u);
+        } catch (NotFoundException ignored){}
         return "redirect:"+Constants.getLastPage("/admin", request);
     }
 
     @PostMapping("/admin/users/{id}/destitute")
-    public String destituteUser(@PathVariable Long id, HttpServletRequest request) throws Exception{
-        User u = api.fetchUserById(id);
-        u.setAdmin(false);
-        userService.save(u);
+    public String destituteUser(@PathVariable Long id, HttpServletRequest request){
+        try {
+            User u = api.fetchUserById(id);
+            u.setAdmin(false);
+            userService.save(u);
+        } catch (NotFoundException ignored){}
         return "redirect:"+Constants.getLastPage("/admin", request);
     }
 

@@ -49,7 +49,7 @@ public abstract class Constants {
             String value,
             HttpServletResponse response
     ){
-        Cookie cookie = new Cookie("last_page", value);
+        Cookie cookie = new Cookie("lastPageConsulted", value);
         response.addCookie(cookie);
     }
     public static String getLastPage(
@@ -58,9 +58,9 @@ public abstract class Constants {
     ) {
         Optional<String> os =
                 Arrays.stream(request.getCookies())
-                        .filter(cookie -> cookie.getName().equals("last_page"))
+                        .filter(cookie -> cookie.getName().equals("lastPageConsulted"))
                         .map(Cookie::getValue)
-                        .findAny();
+                        .findFirst();
         return os.orElse(defaultPage);
     }
 }
