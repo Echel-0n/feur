@@ -467,11 +467,11 @@ public class HelloController {
         return "404";
     }
 
-    @RequestMapping("/*")
+    @RequestMapping(value = "/*")
     public String redirect404(
             HttpServletRequest request
     ){
-        return "redirect:"+Constants.getLastPage("/404", request);
+        return "redirect:/404";
     }
 
 }
