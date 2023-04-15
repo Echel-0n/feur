@@ -191,7 +191,7 @@ public class Api {
     }
 
 
-    // Exception API TODO
+    // Exception API
 
     @RestController
     @RequestMapping("/api-key")
