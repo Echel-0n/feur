@@ -434,6 +434,7 @@ public class HelloController {
     ){
         Constants.applyModel(model, request, userService);
         Constants.setLastPage("/404", response);
+        model.addAttribute("walle", true);
         return "404";
     }
 

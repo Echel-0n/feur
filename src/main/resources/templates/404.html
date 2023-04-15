@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 
 
-<head th:replace="@{/ress/head}"></head>
+<head th:replace="~{@{/ress/head}}"></head>
 
 <body>
     <!-- Spinner Start -->
@@ -15,11 +15,11 @@
     <!-- Spinner End -->
 
 
-    <div th:replace="@{/ress/topbar}"></div>
+    <div th:replace="~{@{/ress/topbar}}"></div>
 
     <!-- Navbar & Hero Start -->
     <div class="container-fluid position-relative p-0">
-        <nav th:replace="@{/ress/navbar}"></nav>
+        <nav th:replace="~{@{/ress/navbar}}"></nav>
 
         <div class="container-fluid bg-primary py-5 mb-5 hero-header">
             <div class="container py-5">
@@ -56,7 +56,7 @@
     </div>
     <!-- 404 End -->
 
-    <div th:replace="@{/ress/footer}"></div>
+    <div th:replace="~{@{/ress/footer}}"></div>
 </body>
 
 </html>

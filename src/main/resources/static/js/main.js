@@ -15,6 +15,11 @@
     // Initiate the wowjs
     new WOW().init();
 
+    $('#walle-button').click( function () {
+        if (!$('*').hasClass("walle")) {
+            $('*').addClass("walle");
+        }
+    });
 
     // Sticky Navbar
     $(window).scroll(function () {

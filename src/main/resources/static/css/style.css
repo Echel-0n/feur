@@ -1,4 +1,8 @@
 /********** Template CSS **********/
+.walle {
+    cursor: url(/img/walle-cursor.png), auto !important;
+}
+
 :root {
     --primary: #86B817;
     --secondary: #FE8800;
